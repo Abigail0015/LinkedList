@@ -3,74 +3,32 @@ package uaslp.ingenieria.labs.list;
 import static uaslp.ingenieria.labs.list.Position.AFTER;
 import static uaslp.ingenieria.labs.list.Position.BEFORE;
 
-/**
- * Lista doblemente ligada
- */
 public class LinkedList<G> implements List<G> {
 
-    // static -> Pertenece a la clase y no al objeto
-     // --> variables -> variables pertenezcan a la clase LinkedList.listsCount
-     // --> Métodos --> LinkedList.getListsCount();
-     // --> Inner classes
 
-    private static class Node<T>{
-        // IMPORTANTE 1:
-        // Noten que el tipo genérico G le pertenece a los OBJETOS LinkedList no a la clase, y ya que Node no le pertenece
-        // a un objeto LinkedList, entonces no comparte el significado del tipo genérico G y es necesario
-        // que se le defina un propio tipo genérico como si estuviera fuera del archivo
+    private static class Node<T> {
         private final T data;
         private Node<T> previous;
         private Node<T> next;
 
-        Node(T data){
+        Node(T data) {
             this.data = data;
         }
-
-        // IMPORTANTE 2:
-        // Ya que Node es privado podemos eliminar los getters y los setters y utilizar sus atributos directamente
-        // ya que no puede estar expuesto a malos usos desde fuera del LinkedList por tener visibilidad privada
-        /*
-        public T getData() {
-            return data;
-        }
-
-        public void setData(T data) {
-            this.data = data;
-        }
-
-        public Node<T> getPrevious() {
-            return previous;
-        }
-
-        public void setPrevious(Node<T> previous) {
-            this.previous = previous;
-        }
-
-        public Node<T> getNext() {
-            return next;
-        }
-
-        public void setNext(Node<T> next) {
-            this.next = next;
-        }*/
     }
 
     private Node<G> head;
     private Node<G> tail;
     private int size;
 
-    public LinkedList() {
-        listsCount ++;
-    }
-
     private static int listsCount = 0;
 
-    public static int getListsCount(){
-        return listsCount;
+    public LinkedList() {
+        listsCount++;
     }
 
-
-
+    public static int getListsCount() {
+        return listsCount;
+    }
 
     public class ForwardIterator implements Iterator<G> {
         private Node<G> currentNode;
@@ -79,25 +37,14 @@ public class LinkedList<G> implements List<G> {
             this.currentNode = head;
         }
 
-        public ForwardIterator(ForwardIterator iterator){
-            currentNode = iterator.currentNode;
-        }
-
-        public boolean hasNext(){
+        public boolean hasNext() {
             return currentNode != null;
         }
 
-        public G next(){
-            G data = currentNode.data; // Noten que a pesar de que data es private, la outer class (LinkedList) tiene acceso
-                                       // al campo
-
+        public G next() {
+            G data = currentNode.data;
             currentNode = currentNode.next;
-
             return data;
-        }
-
-        Node<G> getCurrentNode() {  // modificador de acceso se llama -> package-private
-            return currentNode;
         }
     }
 
@@ -110,24 +57,17 @@ public class LinkedList<G> implements List<G> {
         }
 
 
-        public boolean hasNext(){
+        public boolean hasNext() {
             return currentNode != null;
         }
 
-        public G next(){
+        public G next() {
             G data = currentNode.data;
-
             currentNode = currentNode.previous;
-
             return data;
         }
     }
 
-    /**
-     * Inserts data at the end of the list
-     *
-     * @param data Data to be inserted
-     */
     @Override
     public void add(G data) {
         Node<G> node = new Node<>(data);
@@ -146,10 +86,6 @@ public class LinkedList<G> implements List<G> {
         size++;
     }
 
-    /**
-     * @param index 0-index
-     * @return data in index
-     */
     @Override
     public G get(int index) {
         Node<G> currentNode = head;
@@ -208,43 +144,12 @@ public class LinkedList<G> implements List<G> {
     }
 
     @Override
-    public void insert(G data, Position position, Iterator<G> it) {
-        // ¿qué ofrece java para restringir los valores de position a solamente BEFORE y AFTER?
-
-        Node<G> newNode = new Node<>(data);
-        Node<G> currentNode =((ForwardIterator)it).getCurrentNode();
-
-        if (position == AFTER) {
-            newNode.next = currentNode.next;
-            newNode.previous = currentNode;
-            currentNode.next = newNode;
-            if (newNode.next != null) {
-                newNode.next.previous = newNode;
-            } else {
-                tail = newNode;
-            }
-        } else if (position == BEFORE) {
-            newNode.previous = currentNode.previous;
-            newNode.next = currentNode;
-            currentNode.previous = newNode;
-            if (newNode.previous != null) {
-                newNode.previous.next = newNode;
-            } else {
-                head = newNode;
-            }
-        } else {
-            System.out.println("No conozco el valor de position");
-        }
-        size++;
-    }
-
-    @Override
     public int getSize() {
         return size;
     }
 
     @Override
-    public ReverseIterator getReverseIterator() {
+    public Iterator<G> getReverseIterator() {
         return new ReverseIterator();
     }
 }

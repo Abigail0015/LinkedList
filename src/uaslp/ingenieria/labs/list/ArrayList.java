@@ -32,16 +32,61 @@ public class ArrayList <H> implements List<H>{
 
     @Override
     public Iterator<H> getIterator() {
-        return null;
-    }
-
-    @Override
-    public void insert(H data, Position position, Iterator<H> it) {
-
+        return new ForwardIterator();
     }
 
     @Override
     public Iterator<H> getReverseIterator() {
-        return null;
+        return new ReverseIterator();
+    }
+
+    public class ForwardIterator implements Iterator<H>{
+        private int currentIndex;
+
+        public ForwardIterator(){
+            currentIndex=0;
+        }
+
+        public int getCurrentIndex(){
+            return currentIndex;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return currentIndex<size;
+        }
+
+        @Override
+        public H next() {
+            H data;
+            data=get(currentIndex);
+            currentIndex++;
+            return data;
+        }
+    }
+
+    public class ReverseIterator implements Iterator<H>{
+        private int currentIndex;
+
+        public ReverseIterator(){
+            currentIndex=size-1;
+        }
+
+        public int getCurrentIndex(){
+            return currentIndex;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return currentIndex>=0;
+        }
+
+        @Override
+        public H next() {
+            H data;
+            data=get(currentIndex);
+            currentIndex--;
+            return data;
+        }
     }
 }

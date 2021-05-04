@@ -6,15 +6,9 @@ import uaslp.ingenieria.labs.list.LinkedList;
 import uaslp.ingenieria.labs.list.List;
 
 public class Main {
-
-    // Inner classes
-    // Outer classes
-
     public static void main(String[] args) {
 
         int cuenta =  LinkedList.getListsCount();
-        // Wrapper classes -> Integer, Float, Character, Boolean
-        //Las wrapper classes son "Inmutables"
 
         List<Integer> lista1 = new ArrayList<>();
         List<String> lista2 = new ArrayList<>();
@@ -35,10 +29,10 @@ public class Main {
 
         System.out.println("El tamaño es:" + lista1.getSize());
 
-        /*Iterator<Integer> it = lista1.getIterator();
+        Iterator<Integer> it = lista1.getIterator();
 
         while(it.hasNext()){
-            int element = it.next();
+            Integer element = it.next();
 
             System.out.println("Dato: " + element);
         }
@@ -59,7 +53,7 @@ public class Main {
 
         while(itStrings.hasNext()){
             System.out.println(itStrings.next());
-        }*/
+        }
 
     }
 }
