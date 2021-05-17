@@ -1,3 +1,4 @@
+
 package uaslp.ingenieria.labs.list;
 
 public class ArrayList <H> implements List<H>{
@@ -11,18 +12,32 @@ public class ArrayList <H> implements List<H>{
 
     @Override
     public void add(H data) {
+        if(size== array.length){
+            Object []oldArray = array;
+            array = new Object[array.length*2];
+            System.arraycopy(oldArray,0,array,0,oldArray.length);
+        }
 
         this.array[size++] = data;
     }
 
     @Override
     public H get(int index) {
+        if(index < 0 || index >size)
+            throw new IndexOutOfBoundsException();
+
         return (H)this.array[index];
     }
 
     @Override
     public void delete(int index) {
-
+        if(array.length - (index + 1) >= 0){
+            System.arraycopy(this.array,index + 1,this.array,index + 1 - 1,array.length - (index + 1));
+        }
+        else{
+            throw new IndexOutOfBoundsException();
+        }
+        size--;
     }
 
     @Override
@@ -47,10 +62,6 @@ public class ArrayList <H> implements List<H>{
             currentIndex=0;
         }
 
-        public int getCurrentIndex(){
-            return currentIndex;
-        }
-
         @Override
         public boolean hasNext() {
             return currentIndex<size;
@@ -70,10 +81,6 @@ public class ArrayList <H> implements List<H>{
 
         public ReverseIterator(){
             currentIndex=size-1;
-        }
-
-        public int getCurrentIndex(){
-            return currentIndex;
         }
 
         @Override
